@@ -2,15 +2,32 @@
 # Exit on error
 set -o errexit
 
-# Modify this line as needed for your project
-python -m pip install --upgrade pip
-
 # Install dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Convert static asset files
+# Collect static files
 python manage.py collectstatic --no-input
 
-# Apply any outstanding database migrations
+# Apply database migrations
 python manage.py migrate
 
+# Create superuser from environment variables (if they exist)
+python manage.py shell -c "
+import os
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+username = os.environ.get('SUPERUSER_USERNAME')
+email = os.environ.get('SUPERUSER_EMAIL')
+password = os.environ.get('SUPERUSER_PASSWORD')
+
+if username and email and password:
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username, email, password)
+        print('Superuser created successfully!')
+    else:
+        print('Superuser already exists!')
+else:
+    print('Superuser credentials not set in environment')
+"
