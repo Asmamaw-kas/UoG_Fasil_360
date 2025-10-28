@@ -26,7 +26,5 @@ uritemplate==4.2.0
 uvicorn==0.38.0
 whitenoise==6.11.0
 setuptools==69.5.1
-
-
-
-
+cloudinary==1.41.0
+django-cloudinary-storage==0.3.0
