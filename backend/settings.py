@@ -3,6 +3,9 @@ from datetime import timedelta
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 load_dotenv()
 
@@ -13,6 +16,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-fallback-secret-key-for-development-only')
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 ALLOWED_HOSTS = ['*']
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+cloudinary.config(
+    cloud_name = 'dclc0ktbm',
+    api_key = '261655844236294',
+    api_secret = 'yV4fH25QuL1yfg9TH7q6mDidFUA'
+)
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,6 +36,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'core',
+    'cloudinary',
+    'cloudinary_storage',
     'users',
     'media',
     'whitenoise.runserver_nostatic',
