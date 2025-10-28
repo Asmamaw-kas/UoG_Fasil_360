@@ -169,18 +169,3 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-def create_superuser_if_missing():
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    
-    if not User.objects.exists():
-        username = os.environ.get('SUPERUSER_USERNAME')
-        email = os.environ.get('SUPERUSER_EMAIL')
-        password = os.environ.get('SUPERUSER_PASSWORD')
-        
-        if all([username, email, password]):
-            User.objects.create_superuser(username, email, password)
-            print(f"Superuser {username} created!")
-
-# This will run when the app starts
-create_superuser_if_missing()
